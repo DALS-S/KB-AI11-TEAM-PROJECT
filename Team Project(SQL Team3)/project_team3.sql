@@ -107,6 +107,105 @@ CREATE OR REPLACE VIEW order_view AS
         AND o.id = u.id
         AND od.item_num = i.item_num;
         
+-- 정보 인서트
+--한식
+insert into item values(item_seq.NEXTVAL,'소곱창볶음','한식',15000,sysdate);
+insert into item values(item_seq.NEXTVAL,'불고기','한식',13000,'2023.09.15');
+insert into item values(item_seq.NEXTVAL,'떡볶이','한식',10000,'2023.09.15');
+insert into item values(item_seq.NEXTVAL,'닭볶음탕','한식',12000,'2023.09.15');
+insert into item values(item_seq.NEXTVAL,'부대찌개','한식',15000,'2023.09.15');
+--중식
+insert into item values(item_seq.NEXTVAL,'짜장면','중식',9900,'2023.09.16');
+insert into item values(item_seq.NEXTVAL,'짬뽕','중식',13000,'2023.09.16');
+insert into item values(item_seq.NEXTVAL,'마라탕','중식',10000,'2023.09.16');
+insert into item values(item_seq.NEXTVAL,'마라샹궈','중식',15000,'2023.09.16');
+insert into item values(item_seq.NEXTVAL,'백짬뽕','중식',12900,'2023.09.16');
+--양식
+insert into item values(item_seq.NEXTVAL,'간바스 피칸테','양식',9900,'2023.09.17');
+insert into item values(item_seq.NEXTVAL,'타코','양식',13900,'2023.09.17');
+insert into item values(item_seq.NEXTVAL,'봉골레 크림 빠네 파스타','양식',14000,'2023.09.17');
+insert into item values(item_seq.NEXTVAL,'단호박스프','양식',9900,'2023.09.17');
+insert into item values(item_seq.NEXTVAL,'찹 스테이크','양식',17000,'2023.09.17');
+--일식
+insert into item values(item_seq.NEXTVAL,'밀푀유나베','일식',12900,'2023.09.18');
+insert into item values(item_seq.NEXTVAL,'샤브샤브','일식',10900,'2023.09.18');
+insert into item values(item_seq.NEXTVAL,'소고기 버섯 전골','일식',15900,'2023.09.18');
+insert into item values(item_seq.NEXTVAL,'스키야끼','일식',9900,'2023.09.18');
+insert into item values(item_seq.NEXTVAL,'돈코츠라멘','일식',17000,'2023.09.18');
+
+--고객정보
+insert into users values('KB01','유지웅','부산 동구','010-0000-0000');
+insert into users values('KB02','이경민','제주 서귀포시','010-1111-1111');
+insert into users values('KB03','이상하','경기도 수원','010-2222-2222');
+insert into users values('KB04','이종권','강원도 춘천','010-3333-4444');
+insert into users values('KB05','이지금','서울 서초구','010-5555-5555');
+insert into users values('KB06','오해원','서울 강남구','010-6666-6666');
+insert into users values('KB07','이찬원','대구 동구','010-7777-7777');
+
+--장바구니
+insert into cart values (cart_seq.nextval, 'KB01', 1, 5, sysdate);
+insert into cart values (cart_seq.nextval, 'KB02', 8, 2, sysdate);
+insert into cart values (cart_seq.nextval, 'KB03', 20, 2, sysdate);
+insert into cart values (cart_seq.nextval, 'KB04', 13, 1, sysdate);
+insert into cart values (cart_seq.nextval, 'KB07', 5, 10, sysdate);
+
+--주문
+insert into orders values (orders_seq.nextval, 'KB01', sysdate);
+insert into orders values (orders_seq.nextval, 'KB02', sysdate);
+insert into orders values (orders_seq.nextval, 'KB03', sysdate);
+insert into orders values (orders_seq.nextval, 'KB04', sysdate);
+insert into orders values (orders_seq.nextval, 'KB07', sysdate);
+
+--상세주문
+insert into orders_detail values (orders_reaction_num_seq.nextval,1,1,5,'배송중');
+insert into orders_detail values (orders_reaction_num_seq.nextval,2,8,2,'배송중');
+insert into orders_detail values (orders_reaction_num_seq.nextval,3,20,2,'배송중');
+insert into orders_detail values (orders_reaction_num_seq.nextval,4,13,1,'배송중');
+insert into orders_detail values (orders_reaction_num_seq.nextval,5,5,10,'배송중');
+
+--예시출력
+select * from item;
+select * from users;
+select * from cart;
+select * from orders;
+select * from orders_detail;
+
+-- 정보 갱신
+update users set address = '대구 달서구' where name = '이경민';
+update users set phone = '010-8282-0000' where name = '이경민';
+update users set name = '최치수' where name = '이경민';
+update item set name = '궁중떡볶이' where item_num = '1';
+update orders_detail set orders_result = '배송완' where orders_result = '배송중';
+
+-- 정보 삭제
+delete from orders_detail where quantity = 2;
+delete from orders_detail where quantity = 2;
+delete from cart where cart_quantity = 2;
+delete from cart where item_num = 13;
+delete from item where kind = '중식';
+
+-- join
+select orders.orders_num as 주문번호, 
+users.name as 주문자명, 
+item.name as 제품명, 
+item.price as 가격, 
+orders_date as 주문일시 from orders 
+join item on orders.id=item.name 
+join users on orders.id=users.id 
+order by 주문번호;
+
+-- group by
+select count(item_num), id from cart group by id;
+
+-- having 절
+select  id from cart group by id having count(item_num)=1;
+
+-- 최고가 제품
+create view max_item_Price as select max(price) 최고가 from item;
+
+-- 중첩질의문 작성
+select * from item where price = (select * from max_item_Price);
+
 -- 장바구니 뷰 출력        
 SELECT
     *
