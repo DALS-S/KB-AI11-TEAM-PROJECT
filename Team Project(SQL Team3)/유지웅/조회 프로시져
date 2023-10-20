@@ -1,0 +1,11 @@
+create or replace procedure pro_n
+(
+    in_name in varchar2,
+    id_cursor out sys_refcursor
+)
+is
+    
+begin
+    open id_cursor for select id from users 
+    where users.name = in_name;
+end pro_n;
