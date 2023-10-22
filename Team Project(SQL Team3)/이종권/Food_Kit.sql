@@ -1,88 +1,97 @@
--- ì œí’ˆ í…Œì´ë¸” ìƒì„±
+-- Á¦Ç° Å×ÀÌºí »ı¼º
 CREATE TABLE item (
-    item_num NUMBER(5) PRIMARY KEY,      -- ì œí’ˆ ë²ˆí˜¸
-    name     VARCHAR2(200) DEFAULT 0,    -- ì œí’ˆ ì´ë¦„
-    kind     VARCHAR2(20),               -- ì œí’ˆ ì¢…ë¥˜ (ex.í•œì‹,ì¤‘ì‹,...)
-    price    NUMBER(10) DEFAULT 0,       -- ì œí’ˆ ê°€ê²©
-    regdate  VARCHAR2(10),                -- ì œí’ˆ ë“±ë¡ì¼
---  ì œí’ˆ ìˆ˜ëŸ‰ ì¹¼ëŸ¼ ìƒˆë¡œ ì¶”ê°€ 
+    item_num NUMBER(5) PRIMARY KEY,      -- Á¦Ç° ¹øÈ£
+    name     VARCHAR2(200) DEFAULT 0,    -- Á¦Ç° ÀÌ¸§
+    kind     VARCHAR2(20),               -- Á¦Ç° Á¾·ù (ex.ÇÑ½Ä,Áß½Ä,...)
+    price    NUMBER(10) DEFAULT 0,       -- Á¦Ç° °¡°İ
+    regdate  VARCHAR2(10),                -- Á¦Ç° µî·ÏÀÏ
+--  Á¦Ç° ¼ö·® Ä®·³ »õ·Î Ãß°¡ 
     item_cnt INT DEFAULT 0
 );
 
--- ì œí’ˆ ë²ˆí˜¸ ìƒì„± ì‹œí€€ìŠ¤
+-- Á¦Ç° ¹øÈ£ »ı¼º ½ÃÄö½º
 CREATE SEQUENCE item_seq START WITH 1 INCREMENT BY 1; 
 
 
+
+-- ÇÁ·Î½ÃÀú Å×½ºÆ®ÇÏ´Â °÷
+-- Çªµå Å°Æ® Á¦Ç° Á¾·ù °Ë»ö
 VAR o_cursor REFCURSOR
-EXEC search_food_kind('í•œì‹', :o_cursor)
+EXEC search_food_kind('Áß½Ä', :o_cursor)
 PRINT o_cursor
 
 
 
--- ê³ ê° í…Œì´ë¸” ìƒì„±
+
+
+
+
+
+
+-- °í°´ Å×ÀÌºí »ı¼º
 CREATE TABLE users (
-    id      VARCHAR2(20) PRIMARY KEY,   -- ìœ ì € ì•„ì´ë””
-    name    VARCHAR2(20),               -- ìœ ì € ì´ë¦„
-    address VARCHAR2(100),              -- ìœ ì € ì£¼ì†Œ
-    phone   VARCHAR2(20)                -- ìœ ì € ì „í™”ë²ˆí˜¸
+    id      VARCHAR2(20) PRIMARY KEY,   -- À¯Àú ¾ÆÀÌµğ
+    name    VARCHAR2(20),               -- À¯Àú ÀÌ¸§
+    address VARCHAR2(100),              -- À¯Àú ÁÖ¼Ò
+    phone   VARCHAR2(20)                -- À¯Àú ÀüÈ­¹øÈ£
 );
 
--- ì¥ë°”êµ¬ë‹ˆ í…Œì´ë¸” ìƒì„±
+-- Àå¹Ù±¸´Ï Å×ÀÌºí »ı¼º
 CREATE TABLE cart (
-    cart_num      NUMBER(8) PRIMARY KEY,           -- ì¥ë°”êµ¬ë‹ˆ ë²ˆí˜¸
-    id            VARCHAR2(20),                    -- ì¥ë°”êµ¬ë‹ˆ ì´ìš© ê³ ê° ì•„ì´ë””
-    item_num      NUMBER(5),                       -- ì œí’ˆ ë²ˆí˜¸
-    cart_quantity NUMBER(5) DEFAULT 1,             -- ì¥ë°”êµ¬ë‹ˆì— ë‹´ì€ ì œí’ˆ ìˆ˜ëŸ‰
-    cart_in_date  VARCHAR2(10),                    -- ì¥ë°”êµ¬ë‹ˆ ë‹´ì€ ë‚ ì§œ
+    cart_num      NUMBER(8) PRIMARY KEY,           -- Àå¹Ù±¸´Ï ¹øÈ£
+    id            VARCHAR2(20),                    -- Àå¹Ù±¸´Ï ÀÌ¿ë °í°´ ¾ÆÀÌµğ
+    item_num      NUMBER(5),                       -- Á¦Ç° ¹øÈ£
+    cart_quantity NUMBER(5) DEFAULT 1,             -- Àå¹Ù±¸´Ï¿¡ ´ãÀº Á¦Ç° ¼ö·®
+    cart_in_date  VARCHAR2(10),                    -- Àå¹Ù±¸´Ï ´ãÀº ³¯Â¥
     CONSTRAINT fk_user_id FOREIGN KEY ( id )
-        REFERENCES users ( id ),                      -- ì™¸ë˜í‚¤(ì°¸ì¡°)
+        REFERENCES users ( id ),                      -- ¿Ü·¡Å°(ÂüÁ¶)
     CONSTRAINT fk_item_num FOREIGN KEY ( item_num )
-        REFERENCES item ( item_num )                  -- ì™¸ë˜í‚¤(ì°¸ì¡°)
+        REFERENCES item ( item_num )                  -- ¿Ü·¡Å°(ÂüÁ¶)
 );    
 
--- ì¥ë°”êµ¬ë‹ˆ ë²ˆí˜¸ ìƒì„± ì‹œí€€ìŠ¤
+-- Àå¹Ù±¸´Ï ¹øÈ£ »ı¼º ½ÃÄö½º
 CREATE SEQUENCE cart_seq START WITH 1 INCREMENT BY 1;
 
--- ì£¼ë¬¸ í…Œì´ë¸” ìƒì„±
+-- ÁÖ¹® Å×ÀÌºí »ı¼º
 CREATE TABLE orders (
-    orders_num  NUMBER(10) PRIMARY KEY,                  -- ì£¼ë¬¸ë²ˆí˜¸
-    id          VARCHAR2(20),                            -- ì£¼ë¬¸í•œ ìœ ì € ì•„ì´ë””/foreign key for user(id)
-    orders_date VARCHAR2(10),                            -- ì£¼ë¬¸ë‚ ì§œ  
+    orders_num  NUMBER(10) PRIMARY KEY,                  -- ÁÖ¹®¹øÈ£
+    id          VARCHAR2(20),                            -- ÁÖ¹®ÇÑ À¯Àú ¾ÆÀÌµğ/foreign key for user(id)
+    orders_date VARCHAR2(10),                            -- ÁÖ¹®³¯Â¥  
     CONSTRAINT fk_orders_id FOREIGN KEY ( id )
-        REFERENCES users ( id )                          -- ì™¸ë˜í‚¤(ì°¸ì¡°)
+        REFERENCES users ( id )                          -- ¿Ü·¡Å°(ÂüÁ¶)
 );
 
--- ì£¼ë¬¸ ë²ˆí˜¸ ìƒì„± ì‹œí€€ìŠ¤
+-- ÁÖ¹® ¹øÈ£ »ı¼º ½ÃÄö½º
 CREATE SEQUENCE orders_seq START WITH 1 INCREMENT BY 1; 
 
--- ìƒì„¸ ì£¼ë¬¸ í…Œì´ë¸” ìƒì„±
+-- »ó¼¼ ÁÖ¹® Å×ÀÌºí »ı¼º
 CREATE TABLE orders_detail (
-    orders_reaction_num NUMBER(10) PRIMARY KEY,      -- ì£¼ë¬¸ì²˜ë¦¬ ë²ˆí˜¸
-    orders_num          NUMBER(10),                  -- ì£¼ë¬¸ë²ˆí˜¸/foreign key for order(order_num)
-    item_num            NUMBER(5),                   -- ì œí’ˆë²ˆí˜¸/foreign key for item(item_num)
-    quantity            NUMBER(5),                   -- ì œí’ˆ ìˆ˜ëŸ‰
-    orders_result       VARCHAR2(10) DEFAULT 1,      -- ì²˜ë¦¬ìœ ë¬´(ex. ë°°ì†¡ì „:1, ë°°ì†¡ì¤‘:2, ë„ì°©:3, ...)
+    orders_reaction_num NUMBER(10) PRIMARY KEY,      -- ÁÖ¹®Ã³¸® ¹øÈ£
+    orders_num          NUMBER(10),                  -- ÁÖ¹®¹øÈ£/foreign key for order(order_num)
+    item_num            NUMBER(5),                   -- Á¦Ç°¹øÈ£/foreign key for item(item_num)
+    quantity            NUMBER(5),                   -- Á¦Ç° ¼ö·®
+    orders_result       VARCHAR2(10) DEFAULT 1,      -- Ã³¸®À¯¹«(ex. ¹è¼ÛÀü:1, ¹è¼ÛÁß:2, µµÂø:3, ...)
     CONSTRAINT fk_orders_detail FOREIGN KEY ( orders_num )
-        REFERENCES orders ( orders_num ),            -- ì™¸ë˜í‚¤(ì°¸ì¡°)
+        REFERENCES orders ( orders_num ),            -- ¿Ü·¡Å°(ÂüÁ¶)
     CONSTRAINT fk_prod_detail FOREIGN KEY ( item_num )
-        REFERENCES item ( item_num )                 -- ì™¸ë˜í‚¤(ì°¸ì¡°)
+        REFERENCES item ( item_num )                 -- ¿Ü·¡Å°(ÂüÁ¶)
 );
 
--- ì£¼ë¬¸ì²˜ë¦¬ ë²ˆí˜¸ ìƒì„± ì‹œí€€ìŠ¤
+-- ÁÖ¹®Ã³¸® ¹øÈ£ »ı¼º ½ÃÄö½º
 CREATE SEQUENCE orders_reaction_num_seq START WITH 1 INCREMENT BY 1;
 
--- ë·° ìƒì„±
--- (1) ì¹´íŠ¸ ë·°
+-- ºä »ı¼º
+-- (1) Ä«Æ® ºä
 CREATE OR REPLACE VIEW cart_view AS
     SELECT
-        c.cart_num      "ì¥ë°”êµ¬ë‹ˆ ë²ˆí˜¸",
-        c.item_num      "ì œí’ˆ ë²ˆí˜¸",
-        i.name          ì œí’ˆëª…,
-        i.price         ê°€ê²©,
-        c.cart_quantity "ë‹´ì€ ìˆ˜ëŸ‰",
-        c.id            "ê³ ê° ID",
-        u.name          ê³ ê°ëª…,
-        c.cart_in_date  "ë“±ë¡ ë‚ ì§œ"
+        c.cart_num      "Àå¹Ù±¸´Ï ¹øÈ£",
+        c.item_num      "Á¦Ç° ¹øÈ£",
+        i.name          Á¦Ç°¸í,
+        i.price         °¡°İ,
+        c.cart_quantity "´ãÀº ¼ö·®",
+        c.id            "°í°´ ID",
+        u.name          °í°´¸í,
+        c.cart_in_date  "µî·Ï ³¯Â¥"
     FROM
         cart  c,
         users u,
@@ -91,21 +100,21 @@ CREATE OR REPLACE VIEW cart_view AS
             c.id = u.id
         AND c.item_num = i.item_num;
 
--- (2) ì£¼ë¬¸ ë·°
+-- (2) ÁÖ¹® ºä
 CREATE OR REPLACE VIEW order_view AS
     SELECT
-        od.orders_reaction_num "ì£¼ë¬¸ì²˜ë¦¬ ë²ˆí˜¸",
-        o.orders_num           "ì£¼ë¬¸ë²ˆí˜¸",
-        od.item_num            ì œí’ˆë²ˆí˜¸,
-        i.name                 ì œí’ˆëª…,
-        i.price                ê°€ê²©,
-        od.quantity            ì£¼ë¬¸ìˆ˜ëŸ‰,
-        o.id                   "ì£¼ë¬¸ì ID",
-        u.name                 ê³ ê°ëª…,
-        u.address              ì£¼ì†Œ,
-        u.phone                ì „í™”ë²ˆí˜¸,
-        o.orders_date          "ì£¼ë¬¸ ë‚ ì§œ",
-        od.orders_result       ë°°ì†¡ìƒíƒœ
+        od.orders_reaction_num "ÁÖ¹®Ã³¸® ¹øÈ£",
+        o.orders_num           "ÁÖ¹®¹øÈ£",
+        od.item_num            Á¦Ç°¹øÈ£,
+        i.name                 Á¦Ç°¸í,
+        i.price                °¡°İ,
+        od.quantity            ÁÖ¹®¼ö·®,
+        o.id                   "ÁÖ¹®ÀÚ ID",
+        u.name                 °í°´¸í,
+        u.address              ÁÖ¼Ò,
+        u.phone                ÀüÈ­¹øÈ£,
+        o.orders_date          "ÁÖ¹® ³¯Â¥",
+        od.orders_result       ¹è¼Û»óÅÂ
     FROM
         orders        o,
         orders_detail od,
@@ -116,119 +125,119 @@ CREATE OR REPLACE VIEW order_view AS
         AND o.id = u.id
         AND od.item_num = i.item_num;
         
--- ì •ë³´ ì¸ì„œíŠ¸
---í•œì‹
-insert into item values(item_seq.NEXTVAL,'ì†Œê³±ì°½ë³¶ìŒ','í•œì‹',15000,sysdate, 10);
-insert into item values(item_seq.NEXTVAL,'ë¶ˆê³ ê¸°','í•œì‹',13000,'2023.09.15', 10);
-insert into item values(item_seq.NEXTVAL,'ë–¡ë³¶ì´','í•œì‹',10000,'2023.09.15', 10);
-insert into item values(item_seq.NEXTVAL,'ë‹­ë³¶ìŒíƒ•','í•œì‹',12000,'2023.09.15', 10);
-insert into item values(item_seq.NEXTVAL,'ë¶€ëŒ€ì°Œê°œ','í•œì‹',15000,'2023.09.15', 10);
---ì¤‘ì‹
-insert into item values(item_seq.NEXTVAL,'ì§œì¥ë©´','ì¤‘ì‹',9900,'2023.09.16', 10);
-insert into item values(item_seq.NEXTVAL,'ì§¬ë½•','ì¤‘ì‹',13000,'2023.09.16', 10);
-insert into item values(item_seq.NEXTVAL,'ë§ˆë¼íƒ•','ì¤‘ì‹',10000,'2023.09.16', 10);
-insert into item values(item_seq.NEXTVAL,'ë§ˆë¼ìƒ¹ê¶ˆ','ì¤‘ì‹',15000,'2023.09.16', 10);
-insert into item values(item_seq.NEXTVAL,'ë°±ì§¬ë½•','ì¤‘ì‹',12900,'2023.09.16', 10);
---ì–‘ì‹
-insert into item values(item_seq.NEXTVAL,'ê°„ë°”ìŠ¤ í”¼ì¹¸í…Œ','ì–‘ì‹',9900,'2023.09.17', 10);
-insert into item values(item_seq.NEXTVAL,'íƒ€ì½”','ì–‘ì‹',13900,'2023.09.17', 10);
-insert into item values(item_seq.NEXTVAL,'ë´‰ê³¨ë ˆ í¬ë¦¼ ë¹ ë„¤ íŒŒìŠ¤íƒ€','ì–‘ì‹',14000,'2023.09.17', 10);
-insert into item values(item_seq.NEXTVAL,'ë‹¨í˜¸ë°•ìŠ¤í”„','ì–‘ì‹',9900,'2023.09.17', 10);
-insert into item values(item_seq.NEXTVAL,'ì°¹ ìŠ¤í…Œì´í¬','ì–‘ì‹',17000,'2023.09.17', 10);
---ì¼ì‹
-insert into item values(item_seq.NEXTVAL,'ë°€í‘€ìœ ë‚˜ë² ','ì¼ì‹',12900,'2023.09.18', 10);
-insert into item values(item_seq.NEXTVAL,'ìƒ¤ë¸Œìƒ¤ë¸Œ','ì¼ì‹',10900,'2023.09.18', 10);
-insert into item values(item_seq.NEXTVAL,'ì†Œê³ ê¸° ë²„ì„¯ ì „ê³¨','ì¼ì‹',15900,'2023.09.18', 10);
-insert into item values(item_seq.NEXTVAL,'ìŠ¤í‚¤ì•¼ë¼','ì¼ì‹',9900,'2023.09.18', 10);
-insert into item values(item_seq.NEXTVAL,'ëˆì½”ì¸ ë¼ë©˜','ì¼ì‹',17000,'2023.09.18', 10);
+-- Á¤º¸ ÀÎ¼­Æ®
+--ÇÑ½Ä
+insert into item values(item_seq.NEXTVAL,'¼Ò°öÃ¢ººÀ½','ÇÑ½Ä',15000,sysdate, 10);
+insert into item values(item_seq.NEXTVAL,'ºÒ°í±â','ÇÑ½Ä',13000,'2023.09.15', 10);
+insert into item values(item_seq.NEXTVAL,'¶±ººÀÌ','ÇÑ½Ä',10000,'2023.09.15', 10);
+insert into item values(item_seq.NEXTVAL,'´ßººÀ½ÅÁ','ÇÑ½Ä',12000,'2023.09.15', 10);
+insert into item values(item_seq.NEXTVAL,'ºÎ´ëÂî°³','ÇÑ½Ä',15000,'2023.09.15', 10);
+--Áß½Ä
+insert into item values(item_seq.NEXTVAL,'Â¥Àå¸é','Áß½Ä',9900,'2023.09.16', 10);
+insert into item values(item_seq.NEXTVAL,'Â«»Í','Áß½Ä',13000,'2023.09.16', 10);
+insert into item values(item_seq.NEXTVAL,'¸¶¶óÅÁ','Áß½Ä',10000,'2023.09.16', 10);
+insert into item values(item_seq.NEXTVAL,'¸¶¶ó¼§±Å','Áß½Ä',15000,'2023.09.16', 10);
+insert into item values(item_seq.NEXTVAL,'¹éÂ«»Í','Áß½Ä',12900,'2023.09.16', 10);
+--¾ç½Ä
+insert into item values(item_seq.NEXTVAL,'°£¹Ù½º ÇÇÄ­Å×','¾ç½Ä',9900,'2023.09.17', 10);
+insert into item values(item_seq.NEXTVAL,'Å¸ÄÚ','¾ç½Ä',13900,'2023.09.17', 10);
+insert into item values(item_seq.NEXTVAL,'ºÀ°ñ·¹ Å©¸² ºü³× ÆÄ½ºÅ¸','¾ç½Ä',14000,'2023.09.17', 10);
+insert into item values(item_seq.NEXTVAL,'´ÜÈ£¹Ú½ºÇÁ','¾ç½Ä',9900,'2023.09.17', 10);
+insert into item values(item_seq.NEXTVAL,'Âı ½ºÅ×ÀÌÅ©','¾ç½Ä',17000,'2023.09.17', 10);
+--ÀÏ½Ä
+insert into item values(item_seq.NEXTVAL,'¹ĞÇ£À¯³ªº£','ÀÏ½Ä',12900,'2023.09.18', 10);
+insert into item values(item_seq.NEXTVAL,'»şºê»şºê','ÀÏ½Ä',10900,'2023.09.18', 10);
+insert into item values(item_seq.NEXTVAL,'¼Ò°í±â ¹ö¼¸ Àü°ñ','ÀÏ½Ä',15900,'2023.09.18', 10);
+insert into item values(item_seq.NEXTVAL,'½ºÅ°¾ß³¢','ÀÏ½Ä',9900,'2023.09.18', 10);
+insert into item values(item_seq.NEXTVAL,'µ·ÄÚÃ÷¶ó¸à','ÀÏ½Ä',17000,'2023.09.18', 10);
 
---ê³ ê°ì •ë³´
-insert into users values('KB01','ìœ ì§€ì›…','ë¶€ì‚° ë™êµ¬','010-0000-0000');
-insert into users values('KB02','ì´ê²½ë¯¼','ì œì£¼ ì„œê·€í¬ì‹œ','010-1111-1111');
-insert into users values('KB03','ì´ìƒí•˜','ê²½ê¸°ë„ ìˆ˜ì›','010-2222-2222');
-insert into users values('KB04','ì´ì¢…ê¶Œ','ê°•ì›ë„ ì¶˜ì²œ','010-3333-4444');
-insert into users values('KB05','ì´ì§€ê¸ˆ','ì„œìš¸ ì„œì´ˆêµ¬','010-5555-5555');
-insert into users values('KB06','ì˜¤í•´ì›','ì„œìš¸ ê°•ë‚¨êµ¬','010-6666-6666');
-insert into users values('KB07','ì´ì°¬ì›','ëŒ€êµ¬ ë™êµ¬','010-7777-7777');
+--°í°´Á¤º¸
+insert into users values('KB01','À¯Áö¿õ','ºÎ»ê µ¿±¸','010-0000-0000');
+insert into users values('KB02','ÀÌ°æ¹Î','Á¦ÁÖ ¼­±ÍÆ÷½Ã','010-1111-1111');
+insert into users values('KB03','ÀÌ»óÇÏ','°æ±âµµ ¼ö¿ø','010-2222-2222');
+insert into users values('KB04','ÀÌÁ¾±Ç','°­¿øµµ ÃáÃµ','010-3333-4444');
+insert into users values('KB05','ÀÌÁö±İ','¼­¿ï ¼­ÃÊ±¸','010-5555-5555');
+insert into users values('KB06','¿ÀÇØ¿ø','¼­¿ï °­³²±¸','010-6666-6666');
+insert into users values('KB07','ÀÌÂù¿ø','´ë±¸ µ¿±¸','010-7777-7777');
 
---ì¥ë°”êµ¬ë‹ˆ
+--Àå¹Ù±¸´Ï
 insert into cart values (cart_seq.nextval, 'KB01', 1, 5, sysdate);
 insert into cart values (cart_seq.nextval, 'KB02', 8, 2, sysdate);
 insert into cart values (cart_seq.nextval, 'KB03', 20, 2, sysdate);
-insert into cart values (cart_seq.nextval, 'KB04', 13, 1, sysdate);
+insert into cart values (cart_seq.nextval, 'KB08', 13, 1, sysdate);
 insert into cart values (cart_seq.nextval, 'KB07', 5, 10, sysdate);
 
---ì£¼ë¬¸
+--ÁÖ¹®
 insert into orders values (orders_seq.nextval, 'KB01', sysdate);
 insert into orders values (orders_seq.nextval, 'KB02', sysdate);
 insert into orders values (orders_seq.nextval, 'KB03', sysdate);
 insert into orders values (orders_seq.nextval, 'KB04', sysdate);
 insert into orders values (orders_seq.nextval, 'KB07', sysdate);
 
---ìƒì„¸ì£¼ë¬¸
-insert into orders_detail values (orders_reaction_num_seq.nextval,1,1,5,'ë°°ì†¡ì¤‘');
-insert into orders_detail values (orders_reaction_num_seq.nextval,2,8,2,'ë°°ì†¡ì¤‘');
-insert into orders_detail values (orders_reaction_num_seq.nextval,3,20,2,'ë°°ì†¡ì¤‘');
-insert into orders_detail values (orders_reaction_num_seq.nextval,4,13,1,'ë°°ì†¡ì¤‘');
-insert into orders_detail values (orders_reaction_num_seq.nextval,5,5,10,'ë°°ì†¡ì¤‘');
+--»ó¼¼ÁÖ¹®
+insert into orders_detail values (orders_reaction_num_seq.nextval,1,1,5,'¹è¼ÛÁß');
+insert into orders_detail values (orders_reaction_num_seq.nextval,2,8,2,'¹è¼ÛÁß');
+insert into orders_detail values (orders_reaction_num_seq.nextval,3,20,2,'¹è¼ÛÁß');
+insert into orders_detail values (orders_reaction_num_seq.nextval,4,13,1,'¹è¼ÛÁß');
+insert into orders_detail values (orders_reaction_num_seq.nextval,5,5,10,'¹è¼ÛÁß');
 
---ì˜ˆì‹œì¶œë ¥
+--¿¹½ÃÃâ·Â
 select * from item;
 select * from users;
 select * from cart;
 select * from orders;
 select * from orders_detail;
 
--- ì •ë³´ ê°±ì‹ 
-update users set address = 'ëŒ€êµ¬ ë‹¬ì„œêµ¬' where name = 'ì´ê²½ë¯¼';
-update users set phone = '010-8282-0000' where name = 'ì´ê²½ë¯¼';
-update users set name = 'ìµœì¹˜ìˆ˜' where name = 'ì´ê²½ë¯¼';
-update item set name = 'ê¶ì¤‘ë–¡ë³¶ì´' where item_num = '1';
-update orders_detail set orders_result = 'ë°°ì†¡ì™„' where orders_result = 'ë°°ì†¡ì¤‘';
+-- Á¤º¸ °»½Å
+update users set address = '´ë±¸ ´Ş¼­±¸' where name = 'ÀÌ°æ¹Î';
+update users set phone = '010-8282-0000' where name = 'ÀÌ°æ¹Î';
+update users set name = 'ÃÖÄ¡¼ö' where name = 'ÀÌ°æ¹Î';
+update item set name = '±ÃÁß¶±ººÀÌ' where item_num = '1';
+update orders_detail set orders_result = '¹è¼Û¿Ï' where orders_result = '¹è¼ÛÁß';
 
--- ì •ë³´ ì‚­ì œ
+-- Á¤º¸ »èÁ¦
 delete from orders_detail where quantity = 2;
 delete from orders_detail where quantity = 2;
 delete from cart where cart_quantity = 2;
 delete from cart where item_num = 13;
-delete from item where kind = 'ì¤‘ì‹';
+delete from item where kind = 'Áß½Ä';
 
 -- join
-select orders.orders_num as ì£¼ë¬¸ë²ˆí˜¸, 
-users.name as ì£¼ë¬¸ìëª…, 
-item.name as ì œí’ˆëª…, 
-item.price as ê°€ê²©, 
-orders_date as ì£¼ë¬¸ì¼ì‹œ from orders 
+select orders.orders_num as ÁÖ¹®¹øÈ£, 
+users.name as ÁÖ¹®ÀÚ¸í, 
+item.name as Á¦Ç°¸í, 
+item.price as °¡°İ, 
+orders_date as ÁÖ¹®ÀÏ½Ã from orders 
 join item on orders.id=item.name 
 join users on orders.id=users.id 
-order by ì£¼ë¬¸ë²ˆí˜¸;
+order by ÁÖ¹®¹øÈ£;
 
 -- group by
 select count(item_num), id from cart group by id;
 
--- having ì ˆ
+-- having Àı
 select  id from cart group by id having count(item_num)=1;
 
--- ìµœê³ ê°€ ì œí’ˆ
-create view max_item_Price as select max(price) ìµœê³ ê°€ from item;
+-- ÃÖ°í°¡ Á¦Ç°
+create view max_item_Price as select max(price) ÃÖ°í°¡ from item;
 
--- ì¤‘ì²©ì§ˆì˜ë¬¸ ì‘ì„±
+-- ÁßÃ¸ÁúÀÇ¹® ÀÛ¼º
 select * from item where price = (select * from max_item_Price);
 
--- ì¥ë°”êµ¬ë‹ˆ ë·° ì¶œë ¥        
+-- Àå¹Ù±¸´Ï ºä Ãâ·Â        
 SELECT
     *
 FROM
     cart_view;
     
--- ì£¼ë¬¸ ë·° ì¶œë ¥
+-- ÁÖ¹® ºä Ãâ·Â
 SELECT
     *
 FROM
     order_view;
     
     
--- í…Œì´ë¸” ë° ì‹œí€€ìŠ¤ ë“œë    
+-- Å×ÀÌºí ¹× ½ÃÄö½º µå¶ø    
 DROP TABLE item;
 
 DROP TABLE users;
