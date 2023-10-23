@@ -1,3 +1,5 @@
+--유저 아이디 찾기
+
 create or replace procedure pro_n
 (
     in_name in varchar2,
@@ -9,3 +11,9 @@ begin
     open id_cursor for select id from users 
     where users.name = in_name;
 end pro_n;
+
+--출력창
+
+var id_cursor refcursor
+exec pro_n('유지웅',:id_cursor)
+print id_cursor
