@@ -1,0 +1,9 @@
+set serveroutput on;
+create or replace trigger com
+    after insert on orders
+    for each row
+    declare begin 
+        dbms_output.put_line('등록됨');
+    end;
+/
+insert into orders values (orders_seq.nextval, 'KB01', sysdate);
