@@ -1,0 +1,52 @@
+-- 제품 테이블 생성
+CREATE TABLE item (
+    item_num NUMBER(5) PRIMARY KEY,      -- 제품 번호
+    name     VARCHAR2(200) DEFAULT 0,    -- 제품 이름
+    kind     VARCHAR2(20),               -- 제품 종류 (ex.한식,중식,...)
+    price    NUMBER(10) DEFAULT 0,       -- 제품 가격
+    regdate  DATE DEFAULT sysdate        -- 제품 등록일
+);
+--한식
+insert into item values(item_seq.NEXTVAL,'소곱창볶음','한식',15000,sysdate);
+insert into item values(item_seq.NEXTVAL,'불고기','한식',13000,'2023.09.15');
+insert into item values(item_seq.NEXTVAL,'떡볶이','한식',10000,'2023.09.15');
+insert into item values(item_seq.NEXTVAL,'닭볶음탕','한식',12000,'2023.09.15');
+insert into item values(item_seq.NEXTVAL,'부대찌개','한식',15000,'2023.09.15');
+--중식
+insert into item values(item_seq.NEXTVAL,'짜장면','중식',9900,'2023.09.16');
+insert into item values(item_seq.NEXTVAL,'짬뽕','중식',13000,'2023.09.16');
+insert into item values(item_seq.NEXTVAL,'마라탕','중식',10000,'2023.09.16');
+insert into item values(item_seq.NEXTVAL,'마라샹궈','중식',15000,'2023.09.16');
+insert into item values(item_seq.NEXTVAL,'백짬뽕','중식',12900,'2023.09.16');
+--양식
+insert into item values(item_seq.NEXTVAL,'간바스 피칸테','양식',9900,'2023.09.17');
+insert into item values(item_seq.NEXTVAL,'타코','양식',13900,'2023.09.17');
+insert into item values(item_seq.NEXTVAL,'봉골레 크림 빠네 파스타','양식',14000,'2023.09.17');
+insert into item values(item_seq.NEXTVAL,'단호박스프','양식',9900,'2023.09.17');
+insert into item values(item_seq.NEXTVAL,'찹 스테이크','양식',17000,'2023.09.17');
+--일식
+insert into item values(item_seq.NEXTVAL,'밀푀유나베','일식',12900,'2023.09.18');
+insert into item values(item_seq.NEXTVAL,'샤브샤브','일식',10900,'2023.09.18');
+insert into item values(item_seq.NEXTVAL,'소고기 버섯 전골','일식',15900,'2023.09.18');
+insert into item values(item_seq.NEXTVAL,'스키야끼','일식',9900,'2023.09.18');
+insert into item values(item_seq.NEXTVAL,'돈코츠라멘','일식',17000,'2023.09.18');
+
+SELECT * FROM ITEM;
+
+
+
+
+-- 고객 테이블 생성
+CREATE TABLE usersS (
+    id      VARCHAR2(20) PRIMARY KEY,   -- 유저 아이디
+    name    VARCHAR2(20),               -- 유저 이름
+    address VARCHAR2(100),              -- 유저 주소
+    phone   VARCHAR2(20)                -- 유저 전화번호
+);
+insert into usersS values('KB01','유지웅','부산 동구','010-0000-0000');
+insert into usersS values('KB02','이경민','제주 서귀포시','010-1111-1111');
+insert into usersS values('KB03','이상하','경기도 수원','010-2222-2222');
+insert into usersS values('KB04','이종권','강원도 춘천','010-3333-4444');
+insert into usersS values('KB05','이지금','서울 서초구','010-5555-5555');
+insert into usersS values('KB06','오해원','서울 강남구','010-6666-6666');
+insert into usersS values('KB07','이찬원','대구 동구','010-7777-7777');
